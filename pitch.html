@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dodoma - Pitch Deck</title>
+    <!-- Importar Montserrat de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        color: #333;
+        overflow-x: hidden;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .slide-container {
+        max-width: 900px;
+        margin: 0 auto;
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 80vh; /* Altura fija para el contenedor */
+      }
+      .slides-wrapper {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+      }
+      .slide {
+        padding: 40px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+
+        /* Centrar el contenido verticalmente */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .slide.active {
+        display: flex;
+        opacity: 1;
+      }
+      .slide-title {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #2c3e50;
+      }
+      .cover {
+        background: linear-gradient(135deg, #3498db, #8e44ad);
+        color: white;
+        text-align: center;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+      }
+      .cover h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+      }
+      .cover p {
+        font-size: 24px;
+        opacity: 0.9;
+      }
+      h2 {
+        font-size: 28px;
+        color: #2980b9;
+        margin-bottom: 25px;
+      }
+      h3 {
+        font-size: 22px;
+        color: #3498db;
+        margin: 20px 0 10px;
+      }
+      ul {
+        margin: 20px 0;
+        padding-left: 25px;
+      }
+      li {
+        margin-bottom: 12px;
+        line-height: 1.5;
+      }
+      .highlight {
+        background-color: #fffacd;
+        padding: 2px 5px;
+        font-weight: bold;
+        border-radius: 3px;
+      }
+      .key-message {
+        font-size: 20px;
+        color: #e74c3c;
+        border-left: 4px solid #e74c3c;
+        padding-left: 15px;
+        margin: 25px 0;
+        font-weight: bold;
+      }
+      .two-column {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+      }
+      .column {
+        flex: 1;
+      }
+      .metrics-box {
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+      .metrics-box h4 {
+        margin-top: 0;
+        color: #2c3e50;
+      }
+      .cta {
+        background-color: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 40px;
+      }
+      .cta h2 {
+        color: white;
+        font-size: 32px;
+        margin-bottom: 30px;
+      }
+      .cta .key-message {
+        color: #3498db;
+        border-left: 4px solid #3498db;
+        font-size: 24px;
+      }
+      .cta .highlight {
+        background-color: #3498db;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 4px;
+      }
+      .cta h3 {
+        color: #ecf0f1;
+        font-size: 24px;
+        margin: 25px 0 15px;
+      }
+      .cta ul {
+        margin-left: 0;
+        padding-left: 20px;
+      }
+      .cta li {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      .cta-investment {
+        font-size: 36px;
+        color: #92c5fc;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+        margin: 30px auto;
+        border: 2px solid #92c5fc;
+        font-weight: 700;
+        max-width: 600px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1);
+        transition: transform 0.3s ease;
+      }
+      .cta-investment:hover {
+        transform: scale(1.05);
+      }
+      .cta-join {
+        font-size: 28px;
+        color: #2ecc71;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        margin: 30px auto;
+        border: 2px solid #2ecc71;
+        font-weight: 600;
+        max-width: 700px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .team-member {
+        margin-bottom: 25px;
+      }
+      .footnote {
+        font-size: 14px;
+        color: #7f8c8d;
+        font-style: italic;
+        margin-top: 30px;
+      }
+
+      /* Nuevos estilos para la navegación */
+      .nav-controls {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 40px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #eee;
+      }
+      .nav-btn {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+      }
+      .nav-btn:hover {
+        background-color: #2980b9;
+      }
+      .nav-btn:disabled {
+        background-color: #bdc3c7;
+        cursor: not-allowed;
+      }
+      .navigation-container {
+        width: 100%;
+        position: sticky;
+        bottom: 0;
+        background-color: white;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .slide-progress {
+        display: flex;
+        justify-content: center;
+        padding: 15px 0;
+        gap: 8px;
+      }
+      .progress-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #bdc3c7;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .progress-dot.active {
+        background-color: #3498db;
+      }
+
+      /* Media queries para responsividad */
+      @media (max-width: 768px) {
+        .two-column {
+          flex-direction: column;
+        }
+        .slide {
+          padding: 20px;
+        }
+        h2 {
+          font-size: 24px;
+        }
+        .cover h1 {
+          font-size: 36px;
+        }
+        .slide-container {
+          height: 85vh;
+        }
+      }
+
+      /* Estilos para fullscreen */
+      .fullscreen-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+        z-index: 10;
+      }
+      .fullscreen-btn:hover {
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <button class="fullscreen-btn" id="fullscreenBtn">
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <path
+            fill="currentColor"
+            d="M1.5 1h5v1h-4v4h-1zM14.5 1v1h-4v-1zM9.5 15h5v-5h-1v4h-4zM1.5 10h1v4h4v1h-5z"
+          ></path>
+        </svg>
+      </button>
+
+      <div class="slides-wrapper">
+        <!-- Slide 1: Portada -->
+        <div class="slide cover active">
+          <h1>DODOMA</h1>
+          <p>Identidad Digital Verificable para un Mercado Laboral Confiable</p>
+        </div>
+
+        <!-- Slide 2: El Problema -->
+        <div class="slide">
+          <h2>EL PROBLEMA</h2>
+
+          <p class="key-message">
+            7 de cada 10 candidatos en Latinoamérica alteran información en su
+            CV
+          </p>
+
+          <ul>
+            <li>
+              Empresas pierden hasta el
+              <span class="highlight">10% de sus ingresos anuales</span> por
+              contratar personal no idóneo
+            </li>
+            <li>
+              <span class="highlight">40% de pérdida de productividad</span>
+              debido a malas contrataciones
+            </li>
+            <li>
+              La IA generativa ha creado una nueva ola de fraude:
+              <span class="highlight"
+                >73% de candidatos consideraría usar IA</span
+              >
+              para falsear su CV
+            </li>
+            <li>
+              En la región, somos la
+              <span class="highlight"
+                >tercera con mayores índices de fraude corporativo</span
+              >
+            </li>
+          </ul>
+
+          <p class="key-message">
+            Las verificaciones tradicionales: lentas, costosas y fragmentadas.
+          </p>
+        </div>
+
+        <!-- Slide 3: Nuestros Clientes -->
+        <div class="slide">
+          <h2>NUESTROS CLIENTES</h2>
+
+          <p class="key-message">
+            Modelo B2B2C: empresas pagan, profesionales se benefician
+          </p>
+
+          <div class="two-column">
+            <div class="column">
+              <h3>B2B (Clientes que pagan)</h3>
+              <ul>
+                <li>
+                  <span class="highlight">Departamentos de RH</span> de empresas
+                  medianas y grandes (banca, tecnología, retail)
+                </li>
+                <li>
+                  <span class="highlight">Agencias de reclutamiento</span> y
+                  headhunters que garantizan candidatos a terceros
+                </li>
+                <li>
+                  <span class="highlight">Empresas de verificación</span> de
+                  antecedentes (potenciales aliados y clientes)
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h3>B2C (Usuarios de la plataforma)</h3>
+              <ul>
+                <li>
+                  <span class="highlight">Profesionales</span> que buscan
+                  destacar con credenciales verificadas
+                </li>
+                <li>
+                  <span class="highlight">Candidatos a empleos</span> que desean
+                  diferenciarse en procesos de selección
+                </li>
+                <li>
+                  <span class="highlight">Freelancers</span> que necesitan
+                  validar su trayectoria ante clientes
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: La Solución -->
+        <div class="slide">
+          <h2>LA SOLUCIÓN: IDENTIDAD DIGITAL VERIFICABLE</h2>
+
+          <p class="key-message">
+            Una plataforma que verifica, registra y permite compartir
+            credenciales académicas y profesionales de forma segura y confiable
+          </p>
+
+          <h3>¿Cómo funciona?</h3>
+          <ul>
+            <li>
+              <span class="highlight">Verificación automatizada</span> de
+              credenciales con fuentes oficiales
+            </li>
+            <li>
+              <span class="highlight">Almacenamiento seguro</span> en blockchain
+              (inmutable y a prueba de manipulación)
+            </li>
+            <li>
+              <span class="highlight">Control para el usuario</span> sobre quién
+              accede a su información
+            </li>
+            <li>
+              <span class="highlight">Consulta instantánea</span> para empresas
+              y reclutadores
+            </li>
+          </ul>
+
+          <p class="key-message">
+            Convertimos semanas de verificación manual en segundos de validación
+            digital.
+          </p>
+        </div>
+
+        <!-- Slide 5: Propuesta de Valor -->
+        <div class="slide">
+          <h2>PROPUESTA DE VALOR</h2>
+
+          <div class="two-column">
+            <div class="column">
+              <h3>Para empresas:</h3>
+              <ul>
+                <li>
+                  <span class="highlight">Reduce riesgo de fraude</span> en
+                  contratación hasta en un 95%
+                </li>
+                <li>
+                  <span class="highlight">Acelera procesos</span> de validación
+                  (de días/semanas a segundos)
+                </li>
+                <li>
+                  <span class="highlight">Reduce costos</span> de verificación
+                  tradicional en más del 60%
+                </li>
+                <li>
+                  <span class="highlight">Cumplimiento regulatorio</span>
+                  simplificado y documentado
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h3>Para profesionales:</h3>
+              <ul>
+                <li>
+                  <span class="highlight">Perfil verificado</span> que destaca
+                  frente a otros candidatos
+                </li>
+                <li>
+                  <span class="highlight">Portabilidad</span> de sus
+                  credenciales entre empleadores
+                </li>
+                <li>
+                  <span class="highlight">Control sobre sus datos</span> y con
+                  quién se comparten
+                </li>
+                <li>
+                  <span class="highlight">Monetización</span> potencial de su
+                  información verificada
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="key-message">
+            Creamos confianza y eficiencia en ambos lados del mercado laboral
+          </p>
+        </div>
+
+        <!-- Slide 6: Tamaño de Mercado -->
+        <div class="slide">
+          <h2>TAMAÑO DE MERCADO</h2>
+
+          <div class="metrics-box">
+            <h4>TAM (Total Addressable Market)</h4>
+            <ul>
+              <li>
+                Mercado global de verificación de empleo:
+                <span class="highlight">$4.9 mil millones USD</span> (2025)
+              </li>
+              <li>
+                Mercado global de identidad digital:
+                <span class="highlight">$29-39 mil millones USD</span> (2024)
+              </li>
+            </ul>
+          </div>
+
+          <div class="metrics-box">
+            <h4>SAM (Serviceable Available Market)</h4>
+            <ul>
+              <li>
+                Latinoamérica representa
+                <span class="highlight">~5% del mercado global</span>:
+                <span class="highlight">$662 millones USD</span> (2024)
+              </li>
+              <li>
+                Crecimiento acelerado regional:
+                <span class="highlight">11-12% anual</span> (mayor que mercados
+                maduros)
+              </li>
+            </ul>
+          </div>
+
+          <div class="metrics-box">
+            <h4>SOM (Serviceable Obtainable Market)</h4>
+            <ul>
+              <li>
+                Enfoque inicial:
+                <span class="highlight"
+                  >México, Colombia, Chile, Perú, Brasil</span
+                >
+              </li>
+              <li>
+                Mercado objetivo inicial:
+                <span class="highlight">$200-300 millones USD</span>
+              </li>
+              <li>
+                <span class="highlight"
+                  >Meta a 5 años: capturar 10% del mercado LatAm</span
+                >
+                (~$66M en ingresos anuales)
+              </li>
+            </ul>
+          </div>
+
+          <p class="key-message">
+            Mercado grande y creciente, con enfoque regional estratégico
+          </p>
+        </div>
+
+        <!-- Slide 7: Competencia y Ventajas -->
+        <div class="slide">
+          <h2>COMPETENCIA Y VENTAJAS</h2>
+
+          <div class="two-column">
+            <div class="column">
+              <h3>Competidores actuales</h3>
+              <ul>
+                <li>
+                  <span class="highlight">Verificadores tradicionales</span>:
+                  lentos, costosos, fragmentados
+                </li>
+                <li>
+                  <span class="highlight">Plataformas de identidad</span>:
+                  enfocadas en otros mercados, no en credenciales laborales
+                </li>
+                <li>
+                  <span class="highlight">Soluciones blockchain</span>:
+                  emergentes, sin enfoque regional en Latinoamérica
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h3>Nuestra ventaja competitiva</h3>
+              <ul>
+                <li>
+                  <span class="highlight">Enfoque B2B2C único</span>:
+                  monetización en ambos lados del mercado
+                </li>
+                <li>
+                  <span class="highlight">Conocimiento regional</span>:
+                  entendemos el fraude en Latinoamérica
+                </li>
+                <li>
+                  <span class="highlight">Tecnología + alianzas</span>:
+                  blockchain + convenios con universidades y empresas
+                </li>
+                <li>
+                  <span class="highlight">Efectos de red</span>: cada usuario y
+                  empresa aumenta el valor de la plataforma
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="key-message">
+            Llegamos primero a un mercado desatendido con una solución integral
+          </p>
+        </div>
+
+        <!-- Slide 8: Modelo de Negocio -->
+        <div class="slide">
+          <h2>MODELO DE NEGOCIO</h2>
+
+          <div class="two-column">
+            <div class="column">
+              <h3>Monetización B2B</h3>
+              <ul>
+                <li>
+                  <span class="highlight">Suscripción por volumen (SaaS)</span>:
+                  planes escalonados según verificaciones mensuales
+                  <ul>
+                    <li>
+                      Plan Growth: 100 verificaciones/mes por $300 USD ($3 por
+                      verificación)
+                    </li>
+                    <li>
+                      Plan Enterprise: 1000 verificaciones/mes por $2000 USD ($2
+                      por verificación)
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <span class="highlight">Servicios premium</span>:
+                  verificaciones especiales, integración con ATS, etc.
+                </li>
+                <li>
+                  <span class="highlight">Datos agregados anonimizados</span>:
+                  insights de mercado para consultoría
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h3>Futuro B2C (segunda fase)</h3>
+              <ul>
+                <li>
+                  <span class="highlight"
+                    >Certificados personales verificados</span
+                  >: pagos únicos por credenciales portables
+                </li>
+                <li>
+                  <span class="highlight">Modelo freemium</span>: perfil básico
+                  gratis, verificaciones adicionales de pago
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="key-message">
+            Modelo de ingresos recurrentes con múltiples fuentes de monetización
+          </p>
+        </div>
+
+        <!-- Slide 9: Validación y Tracción -->
+        <div class="slide">
+          <h2>VALIDACIÓN Y TRACCIÓN</h2>
+
+          <div class="two-column">
+            <div class="column">
+              <h3>Hemos validado:</h3>
+              <ul>
+                <li>
+                  <span class="highlight">Problema</span>: Entrevistas con 20+
+                  departamentos de RH confirman dolor por fraude
+                </li>
+                <li>
+                  <span class="highlight">Solución</span>: POC técnico con
+                  universidades para verificar títulos automáticamente
+                </li>
+                <li>
+                  <span class="highlight">Disposición a pagar</span>: 8 de 10
+                  empresas pagarían 60% menos que método tradicional
+                </li>
+                <li>
+                  <span class="highlight">Interés B2C</span>: 65% de
+                  profesionales encuestados interesados en "perfil verificado"
+                </li>
+              </ul>
+            </div>
+            <div class="column">
+              <h3>Próximos pasos:</h3>
+              <ul>
+                <li>
+                  Piloto con 2 universidades y 3 empresas anchor en Colombia y
+                  México
+                </li>
+                <li>Integración con principal bolsa de empleo regional</li>
+                <li>Expansión progresiva a servicios complementarios</li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="key-message">
+            Hemos validado las hipótesis clave del modelo de negocio
+          </p>
+        </div>
+
+        <!-- Slide 10: Factibilidad Operativa -->
+        <div class="slide">
+          <h2>FACTIBILIDAD OPERATIVA</h2>
+
+          <p class="key-message">
+            Implementación escalable y eficiente respaldada por tecnología
+          </p>
+
+          <ul>
+            <li>
+              <span class="highlight">Escalabilidad tecnológica</span>: la
+              verificación automatizada reduce costos marginales
+            </li>
+            <li>
+              <span class="highlight">Infraestructura liviana</span>: modelo
+              SaaS con bajos costos iniciales
+            </li>
+            <li>
+              <span class="highlight">Alianzas estratégicas</span>:
+              universidades y empresas como fuentes de datos
+            </li>
+            <li>
+              <span class="highlight">Equipo técnico especializado</span>:
+              expertise en blockchain, seguridad y protección de datos
+            </li>
+            <li>
+              <span class="highlight">Modelo operativo híbrido</span>:
+              automatización prioritaria + validación humana cuando necesario
+            </li>
+          </ul>
+
+          <p>
+            Nuestra arquitectura tecnológica y las alianzas con fuentes de datos
+            nos permiten superar los retos operativos tradicionales del sector.
+          </p>
+        </div>
+
+        <!-- Slide 11: Viabilidad Financiera -->
+        <div class="slide">
+          <h2>VIABILIDAD FINANCIERA</h2>
+
+          <h3>Métricas clave:</h3>
+          <div class="two-column">
+            <div class="column">
+              <div class="metrics-box">
+                <h4>Costo de adquisición (CAC)</h4>
+                <p>
+                  <span class="highlight">$1,200</span> por cliente empresarial
+                  B2B
+                </p>
+              </div>
+              <div class="metrics-box">
+                <h4>Valor de vida (LTV)</h4>
+                <p>
+                  <span class="highlight">$14,400</span> (promedio de 3 años de
+                  suscripción)
+                </p>
+              </div>
+            </div>
+            <div class="column">
+              <div class="metrics-box">
+                <h4>Ratio LTV/CAC</h4>
+                <p>
+                  <span class="highlight">12:1</span> (muy por encima del umbral
+                  recomendado de 3:1)
+                </p>
+              </div>
+              <div class="metrics-box">
+                <h4>Margen bruto</h4>
+                <p>
+                  <span class="highlight">~50% inicial</span>, creciendo a
+                  <span class="highlight">70%</span> con escala
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="metrics-box">
+            <h4>Break-even</h4>
+            <p><span class="highlight">Mes 18</span> desde lanzamiento</p>
+          </div>
+
+          <p class="key-message">
+            Rentabilidad proyectada: 30%+ después del punto de equilibrio
+          </p>
+        </div>
+
+        <!-- Slide 13: Conexión e Impacto -->
+        <div class="slide">
+          <h2>CONEXIÓN E IMPACTO</h2>
+
+          <p class="key-message">
+            Más allá del negocio, estamos transformando la confianza en el
+            mercado laboral latinoamericano
+          </p>
+
+          <ul>
+            <li>
+              <span class="highlight">Reduciendo fraude y corrupción</span> en
+              un sector crítico para la economía
+            </li>
+            <li>
+              <span class="highlight"
+                >Democratizando el acceso a oportunidades</span
+              >
+              (meritocracia real)
+            </li>
+            <li>
+              <span class="highlight"
+                >Empoderando a profesionales honestos</span
+              >
+              en un sistema justo
+            </li>
+            <li>
+              <span class="highlight"
+                >Creando una economía más eficiente y confiable</span
+              >
+              que beneficia a todos
+            </li>
+          </ul>
+
+          <p>
+            Dodoma no es solo una empresa, es un movimiento para transformar la
+            transparencia en el talento regional.
+          </p>
+        </div>
+
+        <!-- Slide 14: CTA -->
+        <div class="slide cta">
+          <h2>LO QUE BUSCAMOS</h2>
+
+          <div class="cta-investment">Inversión de $800,000 USD</div>
+
+          <h3>Destino de fondos:</h3>
+          <ul>
+            <li><span class="highlight">40%</span> Desarrollo de producto</li>
+            <li><span class="highlight">30%</span> Adquisición de clientes</li>
+            <li><span class="highlight">20%</span> Operaciones iniciales</li>
+            <li><span class="highlight">10%</span> Alianzas estratégicas</li>
+          </ul>
+
+          <div class="cta-join">
+            Únete a nosotros para transformar la verificación profesional en
+            Latinoamérica
+          </div>
+        </div>
+      </div>
+
+      <!-- Navegación fija en la parte inferior -->
+      <div class="navigation-container">
+        <div class="slide-progress" id="slideProgress">
+          <!-- Se generará dinámicamente con JavaScript -->
+        </div>
+        <div class="nav-controls">
+          <button class="nav-btn" id="prevBtn" disabled>Anterior</button>
+          <button class="nav-btn" id="nextBtn">Siguiente</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Variables
+        const slides = document.querySelectorAll(".slide");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const slideProgress = document.getElementById("slideProgress");
+        const fullscreenBtn = document.getElementById("fullscreenBtn");
+        const slideContainer = document.querySelector(".slide-container");
+        let currentSlide = 0;
+
+        // Crear indicadores de progreso
+        slides.forEach((_, index) => {
+          const dot = document.createElement("div");
+          dot.classList.add("progress-dot");
+          if (index === 0) dot.classList.add("active");
+          dot.addEventListener("click", () => goToSlide(index));
+          slideProgress.appendChild(dot);
+        });
+
+        // Función para mostrar slide específico
+        function showSlide(index) {
+          // Ocultar slide actual
+          slides[currentSlide].classList.remove("active");
+          document
+            .querySelectorAll(".progress-dot")
+            [currentSlide].classList.remove("active");
+
+          // Actualizar índice actual
+          currentSlide = index;
+
+          // Mostrar nuevo slide
+          slides[currentSlide].classList.add("active");
+          document
+            .querySelectorAll(".progress-dot")
+            [currentSlide].classList.add("active");
+
+          // Actualizar estado de botones
+          prevBtn.disabled = currentSlide === 0;
+          nextBtn.disabled = currentSlide === slides.length - 1;
+        }
+
+        // Ir a slide específico
+        function goToSlide(index) {
+          showSlide(index);
+        }
+
+        // Evento para botón anterior
+        prevBtn.addEventListener("click", function () {
+          if (currentSlide > 0) {
+            showSlide(currentSlide - 1);
+          }
+        });
+
+        // Evento para botón siguiente
+        nextBtn.addEventListener("click", function () {
+          if (currentSlide < slides.length - 1) {
+            showSlide(currentSlide + 1);
+          }
+        });
+
+        // Navegación con teclado
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowRight" || e.key === " ") {
+            // Flecha derecha o espacio
+            if (currentSlide < slides.length - 1) {
+              showSlide(currentSlide + 1);
+            }
+          } else if (e.key === "ArrowLeft") {
+            // Flecha izquierda
+            if (currentSlide > 0) {
+              showSlide(currentSlide - 1);
+            }
+          }
+        });
+
+        // Función para alternar pantalla completa
+        fullscreenBtn.addEventListener("click", function () {
+          if (!document.fullscreenElement) {
+            if (slideContainer.requestFullscreen) {
+              slideContainer.requestFullscreen();
+            } else if (slideContainer.mozRequestFullScreen) {
+              /* Firefox */
+              slideContainer.mozRequestFullScreen();
+            } else if (slideContainer.webkitRequestFullscreen) {
+              /* Chrome, Safari & Opera */
+              slideContainer.webkitRequestFullscreen();
+            } else if (slideContainer.msRequestFullscreen) {
+              /* IE/Edge */
+              slideContainer.msRequestFullscreen();
+            }
+          } else {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+              document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+              document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+              document.msExitFullscreen();
+            }
+          }
+        });
+
+        // Inicializar
+        showSlide(0);
+      });
+    </script>
+  </body>
+</html>
